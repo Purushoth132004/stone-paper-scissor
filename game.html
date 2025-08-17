@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rock Paper Scissors — Game</title>
+  <link rel="stylesheet" href="css/page2.css"/>
+</head>
+<body>
+  <header class="topbar">
+    <div class="player-name">Hi, <span id="playerNameLabel">Player</span> 👋</div>
+    <div id="roundInfo" class="round-info">Round 1/5 • Series: 0 – 0</div>
+  </header>
+
+  <main class="game-container">
+    <!-- USER SIDE (avatar + score on top, choices below) -->
+    <section class="side user-side">
+      <div class="avatar-box" id="userAvatarBox">
+        <img src="assets/user.png" alt="user" class="avatar"/>
+        <h3 id="userScore">User: 0</h3>
+      </div>
+
+      <div id="userChoice" class="choice-row">
+        <div class="choice-card" data-choice="stone">
+          <img src="assets/stone.jpg" alt="stone"/>
+          <p>Stone</p>
+        </div>
+        <div class="choice-card" data-choice="paper">
+          <img src="assets/paper.jpg" alt="paper"/>
+          <p>Paper</p>
+        </div>
+        <div class="choice-card" data-choice="scissors">
+          <img src="assets/scissors.jpg" alt="scissors"/>
+          <p>Scissors</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROBOT SIDE (choices on top, avatar + score below) -->
+    <section class="side robot-side">
+      <div id="computerChoice" class="choice-row">
+        <div class="choice-card">
+          <img src="assets/stone.jpg" alt="stone"/>
+          <p>Stone</p>
+        </div>
+        <div class="choice-card">
+          <img src="assets/paper.jpg" alt="paper"/>
+          <p>Paper</p>
+        </div>
+        <div class="choice-card">
+          <img src="assets/scissors.jpg" alt="scissors"/>
+          <p>Scissors</p>
+        </div>
+      </div>
+
+      <div class="avatar-box" id="robotAvatarBox">
+        <img src="assets/robot.png" alt="robot" class="avatar"/>
+        <h3 id="robotScore">Robot: 0</h3>
+      </div>
+
+
+
+    </section>
+  </main>
+
+        <!-- FINAL POPUP -->
+<div id="popup" class="popup">
+  <div class="popup-content">
+    <h2 id="popupText"></h2>
+    <button onclick="location.href='index.html'">Play Again</button>
+  </div>
+</div>
+
+
+
+  <script src="javascript/game.js"></script>
+</body>
+</html>

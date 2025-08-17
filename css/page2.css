@@ -1,0 +1,183 @@
+:root{
+  --bgTop:#1f2937;
+  --bgBot:#0b1220;
+  --card:#0f172a;
+  --muted:#9ca3af;
+  --text:#e5e7eb;
+
+  --green:#22c55e;
+  --red:#ef4444;
+  --yellow:#f59e0b;
+  --glow: 0 0 28px;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family:system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background: linear-gradient(180deg, var(--bgTop), var(--bgBot));
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 22px;
+  background: rgba(255,255,255,0.04);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.player-name{ color:#fbbf24; font-weight:700; }
+.round-info{ color:var(--muted); }
+
+.game-container{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:22px;
+  padding:24px;
+}
+
+.side{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+/* avatar + score card */
+.avatar-box{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  background: var(--card);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;
+  padding:16px;
+}
+.avatar{
+  width:120px; height:120px; border-radius:50%;
+  object-fit:cover;
+  border:3px solid rgba(255,255,255,0.15);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+#userScore, #robotScore{ margin:6px 0 0; color:#d1d5db; }
+
+/* choice rows */
+.choice-row{
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.choice-card{
+  width:120px;
+  user-select:none;
+  background: var(--card);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:14px;
+  padding:10px 10px 8px;
+  text-align:center;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.choice-card img{
+  width:100%;
+  height:100px;
+  object-fit:cover;
+  border-radius:10px;
+}
+.choice-card p{
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:.95rem;
+}
+.user-side .choice-card:hover{ transform: translateY(-2px) scale(1.03); }
+
+/* thinking effect on robot choices */
+.thinking{
+  box-shadow: var(--glow) rgba(250, 204, 21, 0.75); /* yellow */
+  border-color: rgba(250, 204, 21, 0.9);
+}
+
+/* selection highlights (cards) */
+.selected-green{
+  box-shadow: var(--glow) rgba(34, 197, 94, 0.9);
+  border-color: rgba(34, 197, 94, 0.9);
+}
+.selected-yellow{
+  box-shadow: var(--glow) rgba(245, 158, 11, 0.9);
+  border-color: rgba(245, 158, 11, 0.9);
+}
+
+/* avatar outcome rings */
+.avatar-win{ box-shadow: 0 0 22px 6px rgba(34, 197, 94, .85); }  /* green */
+.avatar-lose{ box-shadow: 0 0 22px 6px rgba(239, 68, 68, .85); } /* red */
+.avatar-draw{ box-shadow: 0 0 22px 6px rgba(245, 158, 11, .9); } /* yellow */
+
+/* popup */
+.popup{
+  display:none;
+  position:fixed; inset:0;
+  background: rgba(0,0,0,0.7);
+  display:flex; /* this will be overridden by inline style until shown */
+  justify-content:center; align-items:center;
+}
+.popup[style*="display: none"]{ display:none !important; }
+
+.popup-content{
+  width:min(92vw, 380px);
+  background:#fff; color:#111827;
+  border-radius:16px;
+  padding:24px;
+  text-align:center;
+  box-shadow:0 25px 60px rgba(0,0,0,.45);
+  animation: fadeIn .35s ease;
+}
+.popup-content button{
+  margin-top:14px;
+  padding:10px 18px;
+  border:none; border-radius:10px;
+  background:#0ea5e9; color:white; font-weight:700;
+  cursor:pointer;
+}
+.popup-content button:hover{ filter:brightness(1.05); }
+/* popup */
+.popup{
+  display:none;                   /* hidden by default */
+  position:fixed; inset:0;
+  z-index: 1000;                  /* ensure popup is on top */
+  background: rgba(0,0,0,0.7);
+  justify-content:center; 
+  align-items:center;
+}
+
+/* when we want to show it */
+.popup.is-open{ 
+  display:flex; 
+}
+
+.popup-content{
+  width:min(92vw, 380px);
+  background:#fff; color:#111827;
+  border-radius:16px;
+  padding:24px;
+  text-align:center;
+  box-shadow:0 25px 60px rgba(0,0,0,.45);
+  animation: fadeIn .35s ease;
+}
+.popup-content button{
+  margin-top:14px;
+  padding:10px 18px;
+  border:none; border-radius:10px;
+  background:#0ea5e9; color:white; font-weight:700;
+  cursor:pointer;
+}
+.popup-content button:hover{ filter:brightness(1.05); }
+
+@keyframes fadeIn{ 
+  from{opacity:0; transform: translateY(10px);} 
+  to{opacity:1; transform:none;} 
+}
+
+

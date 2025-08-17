@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rock Paper Scissors — Start</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body class="center">
+  <div class="card">
+    <h1>Rock • Paper • Scissors</h1>
+
+    <div class="rules">
+      <h3>Rules</h3>
+      <ul>
+        <li>User vs Robot</li>
+        <li>Each round winner gets +1 point</li>
+        <li>Final popup declares the winner</li>
+      </ul>
+    </div>
+
+    <form id="startForm" class="form">
+      <div class="field">
+        <label for="playerName">Your Name</label>
+        <input type="text" id="playerName" placeholder="e.g., Purushoth" required />
+      </div>
+
+      <div class="field">
+        <label for="rounds">Rounds (best of)</label>
+        <select id="rounds">
+          <option value="3">3</option>
+          <option value="5" selected>5</option>
+          <option value="7">7</option>
+        </select>
+      </div>
+
+      <button type="submit" class="primary">Start Game</button>
+    </form>
+  </div>
+
+  <script src="javascript/start.js"></script>
+</body>
+</html>
