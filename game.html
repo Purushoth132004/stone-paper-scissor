@@ -9,11 +9,12 @@
 <body>
   <header class="topbar">
     <div class="player-name">Hi, <span id="playerNameLabel">Player</span> 👋</div>
-    <div id="roundInfo" class="round-info">Round 1/5 • Series: 0 – 0</div>
+    <div id="series" class="round-info"> <span id="playerNameLabel">Player</span>: 0 – 0 : Robot</div>
+    <div id="roundInfo" class="round-info">Round 1/5 </div>
   </header>
 
   <main class="game-container">
-    <!-- USER SIDE (avatar + score on top, choices below) -->
+   
     <section class="side user-side">
       <div class="avatar-box" id="userAvatarBox">
         <img src="assets/user.png" alt="user" class="avatar"/>
@@ -36,7 +37,7 @@
       </div>
     </section>
 
-    <!-- ROBOT SIDE (choices on top, avatar + score below) -->
+   
     <section class="side robot-side">
       <div id="computerChoice" class="choice-row">
         <div class="choice-card">
@@ -57,13 +58,13 @@
         <img src="assets/robot.png" alt="robot" class="avatar"/>
         <h3 id="robotScore">Robot: 0</h3>
       </div>
-
-
-
+    </section>
+    <section id="round-res" class="round-results">
+  
     </section>
   </main>
 
-        <!-- FINAL POPUP -->
+      
 <div id="popup" class="popup">
   <div class="popup-content">
     <h2 id="popupText"></h2>

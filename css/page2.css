@@ -45,7 +45,7 @@ body{
   gap:18px;
 }
 
-/* avatar + score card */
+
 .avatar-box{
   display:flex;
   flex-direction:column;
@@ -64,7 +64,7 @@ body{
 }
 #userScore, #robotScore{ margin:6px 0 0; color:#d1d5db; }
 
-/* choice rows */
+
 .choice-row{
   display:flex;
   gap:14px;
@@ -94,13 +94,12 @@ body{
 }
 .user-side .choice-card:hover{ transform: translateY(-2px) scale(1.03); }
 
-/* thinking effect on robot choices */
+
 .thinking{
   box-shadow: var(--glow) rgba(250, 204, 21, 0.75); /* yellow */
   border-color: rgba(250, 204, 21, 0.9);
 }
 
-/* selection highlights (cards) */
 .selected-green{
   box-shadow: var(--glow) rgba(34, 197, 94, 0.9);
   border-color: rgba(34, 197, 94, 0.9);
@@ -144,7 +143,8 @@ body{
 .popup-content button:hover{ filter:brightness(1.05); }
 /* popup */
 .popup{
-  display:none;                   /* hidden by default */
+  display:none;
+  color: #0f172a;                   /* hidden by default */
   position:fixed; inset:0;
   z-index: 1000;                  /* ensure popup is on top */
   background: rgba(0,0,0,0.7);
@@ -173,6 +173,26 @@ body{
   background:#0ea5e9; color:white; font-weight:700;
   cursor:pointer;
 }
+
+/* style the game summary inside popup */
+.popup-content ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 12px;
+  text-align: left;
+  max-height: 200px;        /* scroll if too many rounds */
+  overflow-y: auto;
+}
+
+.popup-content ul li {
+  background: #f1f5f9;      /* light gray background */
+  margin: 6px 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+}
+
 .popup-content button:hover{ filter:brightness(1.05); }
 
 @keyframes fadeIn{ 

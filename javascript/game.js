@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // DOM refs
+
   const playerNameLabel = document.getElementById("playerNameLabel");
+  const series = document.getElementById("series");
   const roundInfo = document.getElementById("roundInfo");
 
   const userScoreEl = document.getElementById("userScore");
@@ -15,20 +16,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const popup = document.getElementById("popup");
   const popupText = document.getElementById("popupText");
 
-  // State
   const playerName = localStorage.getItem("playerName") || "Player";
   const maxRounds = parseInt(localStorage.getItem("maxRounds") || "5", 10);
+
   let round = 0;
   let userScore = 0;
   let robotScore = 0;
   let locked = false;
+  let roundHistory = [];
 
   playerNameLabel.textContent = playerName;
 
   const robotCards = Array.from(robotChoiceRow.querySelectorAll(".choice-card"));
   const userCards  = Array.from(userChoiceRow.querySelectorAll(".choice-card"));
 
-  // Thinking effect on robot until user picks
+  // --- THINKING ANIMATION ---
   let thinkTimer = null;
   function startThinking() {
     stopThinking();
@@ -43,9 +45,22 @@ document.addEventListener("DOMContentLoaded", () => {
     robotCards.forEach(c => c.classList.remove("thinking"));
   }
 
-  // Helpers
+  // --- HELPERS ---
   const normalize = v => (v || "").toLowerCase().trim();
-  const robotPick = () => ["stone","paper","scissors"][Math.floor(Math.random()*3)];
+
+  // Purely random decision
+  function getRobotMove() {
+    const choices = ["stone", "paper", "scissors"];
+    return choices[Math.floor(Math.random() * choices.length)];
+  }
+
+  // Optional smart mode (counter to user’s choice)
+  function getSmartMove(userChoice) {
+    if (userChoice === "stone") return "paper";
+    if (userChoice === "paper") return "scissors";
+    if (userChoice === "scissors") return "stone";
+    return getRobotMove();
+  }
 
   function clearSelections() {
     [...userCards, ...robotCards].forEach(c => {
@@ -56,30 +71,37 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateHeader() {
-    roundInfo.textContent = `Round ${Math.min(round+1, maxRounds)}/${maxRounds} • Series: ${userScore} – ${robotScore}`;
+    roundInfo.textContent = `Round ${Math.min(round+1, maxRounds)}/${maxRounds}`;
+  }
+
+  function updateRound(){
+    series.textContent = `${playerName}: ${userScore} - ${robotScore} : Robot`;
   }
 
   function updateScores() {
-    userScoreEl.textContent  = `User: ${userScore}`;
+    userScoreEl.textContent  = `${playerName}: ${userScore}`;
     robotScoreEl.textContent = `Robot: ${robotScore}`;
   }
 
-function showPopup() {
-  let msg = "";
-  if (userScore > robotScore) msg = `${playerName} Wins 🎉`;
-  else if (robotScore > userScore) msg = "Robot Wins 🤖";
-  else msg = "It's a Draw!";
+  function showPopup() {
+    let msg = "";
+    if (userScore > robotScore) msg = `${playerName} Wins the Game 🎉`;
+    else if (robotScore > userScore) msg = "Robot Wins the Game 🤖";
+    else msg = "It's a Draw!";
 
-  popupText.textContent = msg;
-  popup.classList.add("is-open");   
-}
+    let historyHTML = roundHistory.map(r => `<li>${r}</li>`).join("");
 
+    popupText.innerHTML = `
+      <p>${msg}</p>
+      <h3>Game Summary:</h3>
+      <ul>${historyHTML}</ul>`;
+    popup.classList.add("is-open");   
+  }
 
   function findRobotCard(choice) {
     return robotCards.find(card => normalize(card.querySelector("img")?.alt) === normalize(choice));
   }
 
-  // Outcome logic
   function decide(user, robot) {
     if (user === robot) return "draw";
     const userWin =
@@ -89,7 +111,7 @@ function showPopup() {
     return userWin ? "user" : "robot";
   }
 
-  // User click -> play a round
+  // --- MAIN GAME LOOP ---
   userCards.forEach(card => {
     card.addEventListener("click", () => {
       if (locked || round >= maxRounds) return;
@@ -99,7 +121,12 @@ function showPopup() {
       clearSelections();
 
       const userChoice  = normalize(card.dataset.choice);
-      const robotChoice = robotPick();
+
+      // Robot decides AFTER user clicks (unpredictable)
+      const robotChoice = getRobotMove(); 
+      // Or enable smart mode instead:
+      // const robotChoice = getSmartMove(userChoice);
+
       const robotCard   = findRobotCard(robotChoice);
 
       const isDraw = userChoice === robotChoice;
@@ -112,21 +139,29 @@ function showPopup() {
       }
 
       const result = decide(userChoice, robotChoice);
+
+      let roundMsg = "";
       if (result === "user") {
         userScore++;
         userAvatarBox.classList.add("avatar-win");
         robotAvatarBox.classList.add("avatar-lose");
+        roundMsg = `Round ${round+1}: ${playerName} wins`;
       } else if (result === "robot") {
         robotScore++;
         userAvatarBox.classList.add("avatar-lose");
         robotAvatarBox.classList.add("avatar-win");
+        roundMsg = `Round ${round+1}: Robot wins`;
       } else {
         userAvatarBox.classList.add("avatar-draw");
         robotAvatarBox.classList.add("avatar-draw");
+        roundMsg = `Round ${round+1}: Draw`;
       }
+
+      roundHistory.push(roundMsg);
 
       round++;
       updateScores();
+      updateRound();
       updateHeader();
 
       if (round === maxRounds) {
@@ -143,7 +178,6 @@ function showPopup() {
     });
   });
 
-  // init
   updateScores();
   updateHeader();
   startThinking();
